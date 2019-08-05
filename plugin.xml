@@ -1,79 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="cordova-plugin-stockfish" version="1.8.0">
-  <name>Cordova Stockfish Plugin</name>
-  <description>Cordova interface to Stockfish chess engine.</description>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="cordova-plugin-scan" version="1.8.0">
+  <name>Cordova Scan Plugin</name>
+  <description>Cordova interface to Scan draughts engine.</description>
   <author>Sébastien Renault</author>
-  <keywords>cordova,stockfish</keywords>
+  <keywords>cordova,scan</keywords>
   <license>MIT</license>
 
-  <js-module src="www/CordovaPluginStockfish.js" name="CordovaPluginStockfish">
-    <clobbers target="Stockfish" />
+  <js-module src="www/CordovaPluginScan.js" name="CordovaPluginScan">
+    <clobbers target="Scan" />
   </js-module>
 
   <platform name="android">
-    <framework src="build-extras-stockfish.gradle" custom="true" type="gradleReference" />
+    <framework src="build-extras-scan.gradle" custom="true" type="gradleReference" />
 
-    <source-file src="src/android/org.lichess.stockfish/CordovaPluginStockfish.java" target-dir="src/org/lichess/stockfish" />
+    <source-file src="src/android/org.lidraughts.scan/CordovaPluginScan.java" target-dir="src/org/lidraughts/scan" />
     <source-file src="src/android/jni" target-dir="app/src/main" />
-    <source-file src="src/share/threadbuf.h" target-dir="app/src/main/jni/stockfishjni" />
-    <source-file src="src/share/stockfish/src" target-dir="app/src/main/jni/stockfish" />
+    <source-file src="src/share/threadbuf.h" target-dir="app/src/main/jni/scanjni" />
+    <source-file src="src/share/scan/src" target-dir="app/src/main/jni/scan" />
 
     <config-file target="res/xml/config.xml" parent="/*">
-      <feature name="CordovaPluginStockfish">
-        <param name="android-package" value="org.lichess.stockfish.CordovaPluginStockfish" />
+      <feature name="CordovaPluginScan">
+        <param name="android-package" value="org.lidraughts.scan.CordovaPluginScan" />
       </feature>
     </config-file>
   </platform>
 
   <platform name="ios">
     <config-file target="config.xml" parent="/*">
-      <feature name="CordovaPluginStockfish">
-        <param name="ios-package" value="CordovaPluginStockfish" />
+      <feature name="CordovaPluginScan">
+        <param name="ios-package" value="CordovaPluginScan" />
       </feature>
     </config-file>
 
-    <header-file src="src/ios/CordovaPluginStockfish.h" />
-    <source-file src="src/ios/CordovaPluginStockfish.mm" />
-    <header-file src="src/ios/CordovaPluginStockfishc.h" />
-    <header-file src="src/ios/CordovaPluginStockfishios.h" />
+    <header-file src="src/ios/CordovaPluginScan.h" />
+    <source-file src="src/ios/CordovaPluginScan.mm" />
+    <header-file src="src/ios/CordovaPluginScanc.h" />
+    <header-file src="src/ios/CordovaPluginScanios.h" />
     <header-file src="src/share/threadbuf.h" />
 
-    <header-file src="src/share/stockfish/src/bitboard.h" target-dir="./stockfish" />
-    <header-file src="src/share/stockfish/src/endgame.h" target-dir="./stockfish" />
-    <header-file src="src/share/stockfish/src/evaluate.h" target-dir="./stockfish"/>
-    <header-file src="src/share/stockfish/src/material.h" target-dir="./stockfish" />
-    <header-file src="src/share/stockfish/src/misc.h" target-dir="./stockfish" />
-    <header-file src="src/share/stockfish/src/movegen.h" target-dir="./stockfish" />
-    <header-file src="src/share/stockfish/src/movepick.h" target-dir="./stockfish" />
-    <header-file src="src/share/stockfish/src/pawns.h" target-dir="./stockfish" />
-    <header-file src="src/share/stockfish/src/position.h" target-dir="./stockfish" />
-    <header-file src="src/share/stockfish/src/search.h" target-dir="./stockfish"/>
-    <header-file src="src/share/stockfish/src/thread.h" target-dir="./stockfish" />
-    <header-file src="src/share/stockfish/src/thread_win32.h" target-dir="./stockfish" />
-    <header-file src="src/share/stockfish/src/timeman.h" target-dir="./stockfish" />
-    <header-file src="src/share/stockfish/src/tt.h" target-dir="./stockfish" />
-    <header-file src="src/share/stockfish/src/uci.h" target-dir="./stockfish" />
-    <header-file src="src/share/stockfish/src/types.h" target-dir="./stockfish" />
-    <header-file src="src/share/stockfish/src/syzygy/tbprobe.h" target-dir="./stockfish/syzygy" />
+    <header-file src="src/share/scan/src/bb_base.hpp" target-dir="./scan" />
+    <header-file src="src/share/scan/src/bb_comp.hpp" target-dir="./scan" />
+    <header-file src="src/share/scan/src/bb_index.hpp" target-dir="./scan"/>
+    <header-file src="src/share/scan/src/bit.hpp" target-dir="./scan" />
+    <header-file src="src/share/scan/src/book.hpp" target-dir="./scan" />
+    <header-file src="src/share/scan/src/common.hpp" target-dir="./scan" />
+    <header-file src="src/share/scan/src/eval.hpp" target-dir="./scan" />
+    <header-file src="src/share/scan/src/fen.hpp" target-dir="./scan" />
+    <header-file src="src/share/scan/src/game.hpp" target-dir="./scan" />
+    <header-file src="src/share/scan/src/gen.hpp" target-dir="./scan"/>
+    <header-file src="src/share/scan/src/hash.hpp" target-dir="./scan" />
+    <header-file src="src/share/scan/src/hub.hpp" target-dir="./scan" />
+    <header-file src="src/share/scan/src/libmy.hpp" target-dir="./scan" />
+    <header-file src="src/share/scan/src/list.hpp" target-dir="./scan" />
+    <header-file src="src/share/scan/src/move.hpp" target-dir="./scan" />
+    <header-file src="src/share/scan/src/pos.hpp" target-dir="./scan" />
+    <header-file src="src/share/scan/src/score.hpp" target-dir="./scan" />
+    <header-file src="src/share/scan/src/search.hpp" target-dir="./scan" />
+    <header-file src="src/share/scan/src/sort.hpp" target-dir="./scan" />
+    <header-file src="src/share/scan/src/thread.hpp" target-dir="./scan" />
+    <header-file src="src/share/scan/src/tt.hpp" target-dir="./scan" />
+    <header-file src="src/share/scan/src/util.hpp" target-dir="./scan" />
+    <header-file src="src/share/scan/src/var.hpp" target-dir="./scan" />
 
-    <source-file src="src/share/stockfish/src/benchmark.cpp" target-dir="./stockfish" />
-    <source-file src="src/share/stockfish/src/bitbase.cpp" target-dir="./stockfish" />
-    <source-file src="src/share/stockfish/src/bitboard.cpp" target-dir="./stockfish" />
-    <source-file src="src/share/stockfish/src/endgame.cpp" target-dir="./stockfish" />
-    <source-file src="src/share/stockfish/src/evaluate.cpp" target-dir="./stockfish" />
-    <source-file src="src/share/stockfish/src/material.cpp" target-dir="./stockfish" />
-    <source-file src="src/share/stockfish/src/misc.cpp" target-dir="./stockfish" />
-    <source-file src="src/share/stockfish/src/movegen.cpp" target-dir="./stockfish" />
-    <source-file src="src/share/stockfish/src/movepick.cpp" target-dir="./stockfish" />
-    <source-file src="src/share/stockfish/src/pawns.cpp" target-dir="./stockfish" />
-    <source-file src="src/share/stockfish/src/position.cpp" target-dir="./stockfish"/>
-    <source-file src="src/share/stockfish/src/psqt.cpp" target-dir="./stockfish" />
-    <source-file src="src/share/stockfish/src/search.cpp" target-dir="./stockfish" />
-    <source-file src="src/share/stockfish/src/thread.cpp" target-dir="./stockfish" />
-    <source-file src="src/share/stockfish/src/timeman.cpp" target-dir="./stockfish" />
-    <source-file src="src/share/stockfish/src/tt.cpp" target-dir="./stockfish" />
-    <source-file src="src/share/stockfish/src/uci.cpp" target-dir="./stockfish" />
-    <source-file src="src/share/stockfish/src/ucioption.cpp" target-dir="./stockfish" />
-    <source-file src="src/share/stockfish/src/syzygy/tbprobe.cpp" target-dir="./stockfish/syzygy" />
+    <source-file src="src/share/scan/src/bb_base.cpp" target-dir="./scan" />
+    <source-file src="src/share/scan/src/bb_comp.cpp" target-dir="./scan" />
+    <source-file src="src/share/scan/src/bb_index.cpp" target-dir="./scan"/>
+    <source-file src="src/share/scan/src/bit.cpp" target-dir="./scan" />
+    <source-file src="src/share/scan/src/book.cpp" target-dir="./scan" />
+    <source-file src="src/share/scan/src/common.cpp" target-dir="./scan" />
+    <source-file src="src/share/scan/src/eval.cpp" target-dir="./scan" />
+    <source-file src="src/share/scan/src/fen.cpp" target-dir="./scan" />
+    <source-file src="src/share/scan/src/game.cpp" target-dir="./scan" />
+    <source-file src="src/share/scan/src/gen.cpp" target-dir="./scan"/>
+    <source-file src="src/share/scan/src/hash.cpp" target-dir="./scan" />
+    <source-file src="src/share/scan/src/hub.cpp" target-dir="./scan" />
+    <source-file src="src/share/scan/src/libmy.cpp" target-dir="./scan" />
+    <source-file src="src/share/scan/src/list.cpp" target-dir="./scan" />
+    <source-file src="src/share/scan/src/main.cpp" target-dir="./scan" />
+    <source-file src="src/share/scan/src/move.cpp" target-dir="./scan" />
+    <source-file src="src/share/scan/src/pos.cpp" target-dir="./scan" />
+    <source-file src="src/share/scan/src/score.cpp" target-dir="./scan" />
+    <source-file src="src/share/scan/src/search.cpp" target-dir="./scan" />
+    <source-file src="src/share/scan/src/sort.cpp" target-dir="./scan" />
+    <source-file src="src/share/scan/src/thread.cpp" target-dir="./scan" />
+    <source-file src="src/share/scan/src/tt.cpp" target-dir="./scan" />
+    <source-file src="src/share/scan/src/util.cpp" target-dir="./scan" />
+    <source-file src="src/share/scan/src/var.cpp" target-dir="./scan" />
+
   </platform>
 </plugin>

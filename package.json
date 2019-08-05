@@ -1,9 +1,9 @@
 {
-  "name": "cordova-plugin-stockfish",
-  "version": "1.8.0",
-  "description": "Cordova interface to Stockfish chess engine.",
+  "name": "cordova-plugin-scan",
+  "version": "1.0.0",
+  "description": "Cordova interface to Scan draughts engine.",
   "cordova": {
-    "id": "cordova-plugin-stockfish",
+    "id": "cordova-plugin-scan",
     "platforms": [
       "android",
       "ios"
@@ -16,17 +16,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/veloce/cordova-plugin-stockfish.git"
+    "url": "git+https://github.com/RoepStoep/cordova-plugin-scan.git"
   },
   "keywords": [
     "cordova",
-    "stockfish",
-    "chess",
-    "chess variants",
-    "chess 960",
-    "crazyhouse",
-    "three-checks",
-    "atomic chess",
+    "scan",
+    "draughts",
+    "draughts variants",
+    "frisian draughts",
+    "antidraughts",
+    "losing draughts",
     "ecosystem:cordova",
     "cordova-android",
     "cordova-ios"
@@ -34,7 +33,7 @@
   "author": "Sébastien Renault",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/veloce/cordova-plugin-stockfish/issues"
+    "url": "https://github.com/RoepStoep/cordova-plugin-scan/issues"
   },
-  "homepage": "https://github.com/veloce/cordova-plugin-stockfish#readme"
+  "homepage": "https://github.com/RoepStoep/cordova-plugin-scan#readme"
 }
