@@ -13,9 +13,9 @@ namespace score {
 
 // constants
 
-const Score Inf      {Score(10'000)};
-const Score BB_Inf   {Inf - Score(1'000)};
-const Score Eval_Inf {Inf - Score(2'000)};
+const Score Inf      {Score(10000)};
+const Score BB_Inf   {Inf - Score(1000)};
+const Score Eval_Inf {Inf - Score(2000)};
 const Score None     {-Inf - Score(1)};
 
 // functions

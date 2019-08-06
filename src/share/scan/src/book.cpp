@@ -16,6 +16,7 @@
 #include "move.hpp"
 #include "pos.hpp"
 #include "score.hpp"
+#include "thread.hpp"
 #include "var.hpp"
 
 namespace book {
@@ -71,10 +72,8 @@ namespace book {
 
    void init() {
 
-      static_assert(sizeof(Entry) == 16);
-
-      std::cout << "init book" << std::endl;
-      G_Book.load(std::string("data/book") + var::variant_name());
+      sync_cout << "init book" << sync_endl;
+      G_Book.load(var::data_file(std::string("book") + var::variant_name()));
    }
 
    bool probe(const Pos & pos, Score margin, Move & move, Score & score) {

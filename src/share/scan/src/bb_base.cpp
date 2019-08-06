@@ -16,6 +16,7 @@
 #include "list.hpp"
 #include "pos.hpp"
 #include "score.hpp"
+#include "thread.hpp"
 #include "var.hpp"
 
 namespace bb {
@@ -60,7 +61,7 @@ static bool is_load (int size);
 
 void init() {
 
-   std::cout << "init bitbase" << std::endl;
+   sync_cout << "init bitbase" << sync_endl;
 
    for (int i = 0; i < ID_Size; i++) {
 
@@ -130,7 +131,7 @@ void Base::load(ID id) {
    m_id = id;
    m_size = index_size(id);
 
-   std::string file_name = std::string("data/bb") + var::variant_name() + "/" + std::to_string(id_size(id)) + "/" + id_name(id);
+   std::string file_name = var::data_file(std::string("bb") + var::variant_name() + "/" + std::to_string(id_size(id)) + "/" + id_name(id));
    m_index.load(file_name, m_size);
 }
 

@@ -39,6 +39,7 @@ std::string get (const std::string & name);
 void        set (const std::string & name, const std::string & value);
 
 std::string variant_name ();
+std::string data_file(const std::string & name);
 
 } // namespace var
 

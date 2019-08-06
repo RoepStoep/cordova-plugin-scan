@@ -380,8 +380,6 @@ void search(Search_Output & so, const Node & node, const Search_Input & si) {
       }
    }
 
-   if (si.output == Output_Terminal) std::cout << std::endl;
-
    sg.end(); // sync with threads
    so.end();
 }
@@ -536,8 +534,6 @@ void Search_Output::new_best_move(Move mv, Score sc) {
    pv.set(mv);
 
    new_best_move(mv, sc, Flag::Exact, Depth(0), pv);
-
-   if (m_si->output == Output_Terminal) std::cout << std::endl;
 }
 
 void Search_Output::new_best_move(Move mv, Score sc, Flag flag, Depth depth, const Line & pv) {
@@ -758,7 +754,7 @@ void Search_Global::poll() {
 
       if (command == "ping") {
          get_line(line);
-         std::cout << "pong" << std::endl;
+         sync_cout << "pong" << sync_endl;
       } else if (command == "ponder-hit") {
          get_line(line);
          m_ponder = false;

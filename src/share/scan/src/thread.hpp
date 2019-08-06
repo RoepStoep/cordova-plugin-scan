@@ -44,8 +44,17 @@ public:
 void listen_input ();
 
 bool has_input ();
+void set_input  (const std::string & line);
 bool peek_line (std::string & line);
 bool get_line  (std::string & line);
+
+// sync_cout
+
+enum SyncCout { IO_LOCK, IO_UNLOCK };
+std::ostream& operator<<(std::ostream&, SyncCout);
+
+#define sync_cout std::cout << IO_LOCK
+#define sync_endl std::endl << IO_UNLOCK
 
 #endif // !defined THREAD_HPP
 

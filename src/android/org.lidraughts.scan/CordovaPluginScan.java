@@ -4,6 +4,7 @@ import static java.util.concurrent.TimeUnit.*;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.res.AssetManager;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -64,7 +65,7 @@ public final class CordovaPluginScan extends CordovaPlugin {
   @Override
   public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
     if (action.equals("init")) {
-      init(callbackContext);
+      init(args, callbackContext);
     } else if (action.equals("cmd")) {
       cmd(args, callbackContext);
     } else if (action.equals("output")) {
@@ -77,7 +78,7 @@ public final class CordovaPluginScan extends CordovaPlugin {
     return true;
   }
 
-  private void init(CallbackContext callbackContext) {
+  private void init(final JSONArray args, final CallbackContext callbackContext) {
     if(!isInit) {
       // Get total device RAM for hashtable sizing
       Context context = this.cordova.getActivity().getApplicationContext();
@@ -85,7 +86,16 @@ public final class CordovaPluginScan extends CordovaPlugin {
       ActivityManager.MemoryInfo memInfo = new ActivityManager.MemoryInfo();
       actManager.getMemoryInfo(memInfo);
       long totalMemory = memInfo.totalMem;
-      jniInit(totalMemory);
+      // Get variant
+      String variant;
+      try {
+        variant = args.getString(0);
+      } catch (JSONException e) {
+        variant = "normal";
+      }
+      // Application cache path
+      String cachePath = context.getCacheDir().getAbsolutePath();
+      jniInit(totalMemory, variant, cachePath, context.getAssets());
       isInit = true;
     }
     callbackContext.success();
@@ -109,14 +119,14 @@ public final class CordovaPluginScan extends CordovaPlugin {
     }
   }
 
-  private void output(CallbackContext callbackContext) {
+  private void output(final CallbackContext callbackContext) {
     this.outputCallbackContext = callbackContext;
     PluginResult pluginResult = new PluginResult(PluginResult.Status.NO_RESULT);
     pluginResult.setKeepCallback(true);
     callbackContext.sendPluginResult(pluginResult);
   }
 
-  private void uiExit(CallbackContext callbackContext) throws JSONException {
+  private void uiExit(final CallbackContext callbackContext) throws JSONException {
     if(isInit) {
       doExit();
       callbackContext.success();
@@ -148,7 +158,7 @@ public final class CordovaPluginScan extends CordovaPlugin {
     sendOutput(output);
   }
 
-  public native void jniInit(long memorySize);
+  public native void jniInit(long memorySize, String variant, String cachePath, AssetManager assetManager);
 
   public native void jniExit();
 

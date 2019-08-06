@@ -32,7 +32,7 @@ std::string read() {
 }
 
 void write(const std::string & line) {
-   std::cout << line << std::endl;
+   sync_cout << line << sync_endl;
 }
 
 void add_pair(std::string & line, const std::string & name, int value) {

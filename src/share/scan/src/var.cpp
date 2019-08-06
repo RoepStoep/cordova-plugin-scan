@@ -6,6 +6,7 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <sstream>
 
 #include "common.hpp"
 #include "libmy.hpp"
@@ -45,8 +46,9 @@ void init() {
    set("book-margin", "4");
    set("ponder", "false");
    set("threads", "1");
-   set("tt-size", "24");
-   set("bb-size", "5");
+   set("tt-size", "22");
+   set("bb-size", "0");
+   set("datapath", "");
 
    update();
 }
@@ -185,6 +187,12 @@ std::string variant_name() {
       case Frisian : return "_frisian";
       case Losing :  return "_losing";
    }
+}
+
+std::string data_file(const std::string & filepath) {
+   std::stringstream path_stream;
+   path_stream << get("datapath") << "/" << filepath;
+   return path_stream.str();
 }
 
 } // namespace var

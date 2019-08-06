@@ -15,6 +15,7 @@
 #include "libmy.hpp"
 #include "pos.hpp"
 #include "score.hpp"
+#include "thread.hpp"
 #include "var.hpp"
 
 // compile-time functions
@@ -132,11 +133,11 @@ static int   pst(const Pos& pos, Side sd);
 
 void eval_init() {
 
-   std::cout << "init eval" << std::endl;
+   sync_cout << "init eval" << sync_endl;
 
    // load weights
 
-   std::string file_name = std::string("data/eval") + var::variant_name();
+   std::string file_name = var::data_file(std::string("eval") + var::variant_name());
    std::ifstream file(file_name, std::ios::binary);
 
    if (!file) {

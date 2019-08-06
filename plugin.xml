@@ -52,6 +52,7 @@
     <header-file src="src/share/scan/src/hub.hpp" target-dir="./scan" />
     <header-file src="src/share/scan/src/libmy.hpp" target-dir="./scan" />
     <header-file src="src/share/scan/src/list.hpp" target-dir="./scan" />
+    <header-file src="src/share/scan/src/main.hpp" target-dir="./scan" />
     <header-file src="src/share/scan/src/move.hpp" target-dir="./scan" />
     <header-file src="src/share/scan/src/pos.hpp" target-dir="./scan" />
     <header-file src="src/share/scan/src/score.hpp" target-dir="./scan" />

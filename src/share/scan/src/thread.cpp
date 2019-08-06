@@ -5,6 +5,7 @@
 #include <string>
 
 #include "libmy.hpp"
+#include "main.hpp"
 #include "thread.hpp"
 
 // types
@@ -40,7 +41,7 @@ static void input_program (Input * input);
 // functions
 
 void listen_input() {
-   G_Thread = std::thread(input_program, &G_Input);
+   G_Thread = std::thread(hub_loop);
    G_Thread.detach();
 }
 
@@ -57,6 +58,10 @@ static void input_program(Input * input) {
 
 bool has_input() {
    return G_Input.has_input();
+}
+
+void set_input(const std::string & line) {
+   return G_Input.put_line(line);
 }
 
 bool peek_line(std::string & line) {
@@ -132,3 +137,15 @@ void Input::put_line(const std::string & line) {
    unlock();
 }
 
+std::ostream& operator<<(std::ostream& os, SyncCout sc) {
+
+  static Lockable m;
+
+  if (sc == IO_LOCK)
+      m.lock();
+
+  if (sc == IO_UNLOCK)
+      m.unlock();
+
+  return os;
+}

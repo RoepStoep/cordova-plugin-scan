@@ -1,7 +1,7 @@
 module.exports = {
-  init: function () {
+  init: function (variant) {
     return new Promise(function(resolve, reject) {
-      cordova.exec(resolve, reject, 'CordovaPluginScan', 'init', []);
+      cordova.exec(resolve, reject, 'CordovaPluginScan', 'init', [variant]);
     });
   },
 
