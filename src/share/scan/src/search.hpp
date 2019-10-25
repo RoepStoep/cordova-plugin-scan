@@ -22,7 +22,7 @@ class Node;
 const Depth Depth_Max {Depth(99)};
 
 const Ply Ply_Root {Ply(0)};
-const Ply Ply_Max  {Ply(99)};
+const Ply Ply_Max  {Ply(49)};
 const int Ply_Size {Ply_Max + 1};
 
 // types

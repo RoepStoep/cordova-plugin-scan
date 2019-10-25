@@ -1,18 +1,13 @@
 #include "threadbuf.h"
-#include "uci.h"
-#include "bitboard.h"
-#include "position.h"
-#include "search.h"
-#include "evaluate.h"
-#include "pawns.h"
-#include "thread.h"
-#include "tt.h"
-#include "tbprobe.h"
+#include "bb_comp.hpp"
+#include "bb_index.hpp"
+#include "bit.hpp"
+#include "main.hpp"
+#include "hash.hpp"
+#include "pos.hpp"
+#include "thread.hpp"
+#include "var.hpp"
 #include "CordovaPluginScanc.h"
-
-namespace PSQT {
-  void init();
-}
 
 namespace scanios
 {
@@ -47,29 +42,43 @@ namespace scanios
 
   std::thread reader;
 
-  void init(void *scan) {
+  void init(void *scan, std::string variant, std::string resourcePath) {
     reader = std::thread(readstdout, scan);
+      
+    bit::init();
+    hash::init();
+    pos::init();
+    var::init();
 
-    UCI::init(Options);
-    PSQT::init();
-    Bitboards::init();
-    Position::init();
-    Bitbases::init();
-    Search::init();
-    Pawns::init();
-    Tablebases::init(CHESS_VARIANT, Options["SyzygyPath"]); // After Bitboards are set
-    Threads.set(Options["Threads"]);
-    Search::clear(); // After threads are up
-    TT.resize(Options["Hash"]);
+    bb::index_init();
+    bb::comp_init();
+
+    ml::rand_init(); // after hash keys
+
+    // use fixed hash size
+    const int hashSize = 32;
+    std::string ttSize = std::to_string(floor(log2(hashSize * 1024 * 1024 / 16)));
+    var::set("tt-size", ttSize);
+
+    // store resources directory as datapath
+    var::set("datapath", resourcePath);
+
+    // set variant 
+    var::set("variant", variant);
+    var::update();
+
+    bit::init(); // depends on the variant
+
+    // start input loop on a new thread
+    listen_input();
   }
 
   void cmd(std::string cmd) {
-    UCI::command(cmd);
+    hub_command(cmd);
   }
 
   void exit() {
     sync_cout << CMD_EXIT << sync_endl;
     reader.join();
-    Threads.set(0);
   }
 }

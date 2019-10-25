@@ -14,7 +14,7 @@ class List {
 
 private:
 
-   static const int Size{ 128 };
+   static const int Size{ 64 };
 
    int m_capture_score{ 0 };
    int m_size{ 0 };

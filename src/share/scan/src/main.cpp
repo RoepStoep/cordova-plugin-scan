@@ -43,28 +43,6 @@ static void param_enum (const std::string & name, const std::string & values);
 
 // functions
 
-int main(int argc, char * argv[]) {
-
-   bit::init();
-   hash::init();
-   pos::init();
-   var::init();
-
-   bb::index_init();
-   bb::comp_init();
-
-   ml::rand_init(); // after hash keys
-
-   var::load("scan.ini");
-
-   listen_input();
-   bit::init(); // depends on the variant
-
-   hub_loop();
-
-   return EXIT_SUCCESS;
-}
-
 void hub_loop() {
 
    Game game;

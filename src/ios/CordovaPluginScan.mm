@@ -13,8 +13,10 @@ NSNumber *isInit = @FALSE;
     /* NSLog(@"DEBUG>>> INIT EXECUTED"); */
 
     if(![isInit boolValue]) {
-      scanios::init((__bridge void*)self);
       isInit = @TRUE;
+      NSString* resourcePath = [[NSBundle mainBundle] resourcePath];
+      NSString* variant = [command.arguments count] > 0 ? [command.arguments objectAtIndex:0] : nil;
+      scanios::init((__bridge void*)self, variant != nil ? std::string([variant UTF8String]) : "normal", std::string([resourcePath UTF8String]));
     }
     CDVPluginResult* pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
