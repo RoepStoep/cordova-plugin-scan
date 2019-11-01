@@ -18,8 +18,8 @@
     <source-file src="src/share/threadbuf.h" target-dir="app/src/main/jni/scanjni" />
     <source-file src="src/share/scan/src" target-dir="app/src/main/jni/scan" />
 
-    <source-file src="src/android/filestream.hpp" target-dir="app/src/main/jni/scan" />
-    <source-file src="src/android/filestream.cpp" target-dir="app/src/main/jni/scan" />
+    <source-file src="src/android/filestream.hpp" target-dir="app/src/main/jni/scan/src" />
+    <source-file src="src/android/filestream.cpp" target-dir="app/src/main/jni/scan/src" />
 
     <config-file target="res/xml/config.xml" parent="/*">
       <feature name="CordovaPluginScan">
