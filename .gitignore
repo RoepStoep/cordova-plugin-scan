@@ -1,3 +1,4 @@
 src/android/libs
 src/android/obj
 .vscode
+.metals

@@ -11,6 +11,7 @@ scan_src_files := \
     src/common.cpp                              \
     src/eval.cpp                                  \
     src/fen.cpp                               \
+    src/filestream.cpp                               \
     src/game.cpp                              \
     src/gen.cpp                                 \
     src/hash.cpp                              \

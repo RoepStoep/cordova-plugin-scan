@@ -5,6 +5,7 @@
 #include "bb_comp.hpp"
 #include "bb_index.hpp"
 #include "bit.hpp"
+#include "filestream.hpp"
 #include "main.hpp"
 #include "hash.hpp"
 #include "pos.hpp"
@@ -17,18 +18,16 @@
 #define LOGD(TAG,...) __android_log_print(ANDROID_LOG_DEBUG  , TAG,__VA_ARGS__)
 
 extern "C" {
-  JNIEXPORT void JNICALL Java_org_lidraughts_scan_CordovaPluginScan_jniInit(JNIEnv *env, jobject obj, jlong memorySize, jstring jvariant, jstring jcachePath, jobject jassetManager);
+  JNIEXPORT void JNICALL Java_org_lidraughts_scan_CordovaPluginScan_jniInit(JNIEnv *env, jobject obj, jlong memorySize, jstring jvariant, jobject jassetManager);
   JNIEXPORT void JNICALL Java_org_lidraughts_scan_CordovaPluginScan_jniExit(JNIEnv *env, jobject obj);
   JNIEXPORT void JNICALL Java_org_lidraughts_scan_CordovaPluginScan_jniCmd(JNIEnv *env, jobject obj, jstring jcmd);
 };
 
 static JavaVM *jvm;
-static jobject jobj;
+static jobject jobj, jglobalAssetManager;
 static jmethodID onMessage;
 
 static std::string CMD_EXIT = "scan:exit";
-
-void ensure_cached(AAssetManager *mgr, const std::string & filename);
 
 auto readstdout = []() {
   JNIEnv *jenv;
@@ -63,14 +62,15 @@ auto readstdout = []() {
 
   // Restore output standard
   std::cout.rdbuf(out);
-
   lichbuf.close();
+
+  jenv->DeleteGlobalRef(jglobalAssetManager);
   jvm->DetachCurrentThread();
 };
 
 std::thread reader;
 
-JNIEXPORT void JNICALL Java_org_lidraughts_scan_CordovaPluginScan_jniInit(JNIEnv *env, jobject obj, jlong memorySize, jstring jvariant, jstring jcachePath, jobject jassetManager) {
+JNIEXPORT void JNICALL Java_org_lidraughts_scan_CordovaPluginScan_jniInit(JNIEnv *env, jobject obj, jlong memorySize, jstring jvariant, jobject jassetManager) {
   jobj = env->NewGlobalRef(obj);
   env->GetJavaVM(&jvm);
   jclass classScan = env->GetObjectClass(obj);
@@ -95,22 +95,20 @@ JNIEXPORT void JNICALL Java_org_lidraughts_scan_CordovaPluginScan_jniInit(JNIEnv
   std::string ttSize = std::to_string(floor(log2(hashSize * 1024 * 1024 / 16)));
   var::set("tt-size", ttSize);
 
-  // store application cache directory as datapath
-  const char* cachePath = env->GetStringUTFChars(jcachePath, (jboolean *)0);
-  var::set("datapath", std::string(cachePath));
-  env->ReleaseStringUTFChars(jcachePath, cachePath);
+  // no datapath, files are loaded from the asset manager
+  var::set("datapath", "");
 
-  // set variant (IMPORTANT: do not change after init because cached files can be cleaned by the system)
+  // set variant
   const char* variant = env->GetStringUTFChars(jvariant, (jboolean *)0);
   var::set("variant", std::string(variant));
   env->ReleaseStringUTFChars(jvariant, variant);
 
   var::update();
 
-  // make sure the required eval/book files exist in cache before init
-  AAssetManager* mgr = AAssetManager_fromJava(env, jassetManager);
-  ensure_cached(mgr, std::string("book") + var::variant_name());
-  ensure_cached(mgr, std::string("eval") + var::variant_name());
+  // store asset manager reference
+  jglobalAssetManager = env->NewGlobalRef(jassetManager);
+  AAssetManager* mgr = AAssetManager_fromJava(env, jglobalAssetManager);
+  set_asset_manager(mgr);
 
   bit::init(); // depends on the variant
 
@@ -128,22 +126,4 @@ JNIEXPORT void JNICALL Java_org_lidraughts_scan_CordovaPluginScan_jniCmd(JNIEnv 
   const char *cmd = env->GetStringUTFChars(jcmd, (jboolean *)0);
   hub_command(cmd);
   env->ReleaseStringUTFChars(jcmd, cmd);
-}
-
-void ensure_cached(AAssetManager *mgr, const std::string & filename) {
-  const char *filepath = var::data_file(filename).c_str();
-  if (FILE *file = fopen(filepath, "r")) {
-    fclose(file);
-  } else {
-    AAsset* asset = AAssetManager_open(mgr, filename.c_str(), AASSET_MODE_STREAMING);
-    char buf[BUFSIZ];
-    int nb_read = 0;
-
-    FILE* out = fopen(filepath, "w");
-    while ((nb_read = AAsset_read(asset, buf, BUFSIZ)) > 0)
-      fwrite(buf, nb_read, 1, out);
-    fclose(out);
-
-    AAsset_close(asset);
-  }
 }

@@ -80,6 +80,7 @@ public final class CordovaPluginScan extends CordovaPlugin {
 
   private void init(final JSONArray args, final CallbackContext callbackContext) {
     if(!isInit) {
+      isInit = true;
       // Get total device RAM for hashtable sizing
       Context context = this.cordova.getActivity().getApplicationContext();
       ActivityManager actManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
@@ -93,10 +94,8 @@ public final class CordovaPluginScan extends CordovaPlugin {
       } catch (JSONException e) {
         variant = "normal";
       }
-      // Application cache path
-      String cachePath = context.getCacheDir().getAbsolutePath();
-      jniInit(totalMemory, variant, cachePath, context.getAssets());
-      isInit = true;
+      // Inject assets manager
+      jniInit(totalMemory, variant, context.getAssets());
     }
     callbackContext.success();
   }
@@ -158,7 +157,7 @@ public final class CordovaPluginScan extends CordovaPlugin {
     sendOutput(output);
   }
 
-  public native void jniInit(long memorySize, String variant, String cachePath, AssetManager assetManager);
+  public native void jniInit(long memorySize, String variant, AssetManager assetManager);
 
   public native void jniExit();
 

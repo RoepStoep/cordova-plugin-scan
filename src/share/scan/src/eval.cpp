@@ -12,6 +12,7 @@
 #include "bit.hpp"
 #include "common.hpp"
 #include "eval.hpp"
+#include "filestream.hpp"
 #include "libmy.hpp"
 #include "pos.hpp"
 #include "score.hpp"
@@ -137,8 +138,8 @@ void eval_init() {
 
    // load weights
 
-   std::string file_name = var::data_file(std::string("eval") + var::variant_name());
-   std::ifstream file(file_name, std::ios::binary);
+   std::string file_name = std::string("eval") + var::variant_name();
+   std::unique_ptr<std::istream> file = get_stream_binary(file_name);
 
    if (!file) {
       std::cerr << "unable to open file \"" << file_name << "\"" << std::endl;
@@ -148,7 +149,7 @@ void eval_init() {
    G_Weight.resize(P * 2);
 
    for (int i = 0; i < P * 2; i++) {
-      G_Weight[i] = int16(ml::get_bytes(file, 2)); // HACK: extend sign
+      G_Weight[i] = int16(ml::get_bytes(*file, 2)); // HACK: extend sign
    }
 
    // init base conversion (2 -> 3)

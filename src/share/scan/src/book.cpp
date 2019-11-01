@@ -9,6 +9,7 @@
 
 #include "book.hpp"
 #include "common.hpp"
+#include "filestream.hpp"
 #include "gen.hpp"
 #include "hash.hpp"
 #include "libmy.hpp"
@@ -73,7 +74,7 @@ namespace book {
    void init() {
 
       sync_cout << "init book" << sync_endl;
-      G_Book.load(var::data_file(std::string("book") + var::variant_name()));
+      G_Book.load(std::string("book") + var::variant_name());
    }
 
    bool probe(const Pos & pos, Score margin, Move & move, Score & score) {
@@ -200,7 +201,7 @@ namespace book {
 
    static void load(const std::string & file_name) {
 
-      std::ifstream file(file_name.c_str());
+      std::unique_ptr<std::istream> file = get_stream(file_name);
 
       if (!file) {
          std::cerr << "unable to open file \"" << file_name << "\"" << std::endl;
@@ -208,7 +209,7 @@ namespace book {
       }
 
       G_Book.clear_done();
-      load(file, pos::Start);
+      load(*file, pos::Start);
    }
 
    static void load(std::istream & file, const Pos & pos) {

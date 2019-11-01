@@ -18,6 +18,9 @@
     <source-file src="src/share/threadbuf.h" target-dir="app/src/main/jni/scanjni" />
     <source-file src="src/share/scan/src" target-dir="app/src/main/jni/scan" />
 
+    <source-file src="src/android/filestream.hpp" target-dir="app/src/main/jni/scan" />
+    <source-file src="src/android/filestream.cpp" target-dir="app/src/main/jni/scan" />
+
     <config-file target="res/xml/config.xml" parent="/*">
       <feature name="CordovaPluginScan">
         <param name="android-package" value="org.lidraughts.scan.CordovaPluginScan" />
@@ -37,6 +40,9 @@
     <header-file src="src/ios/CordovaPluginScanc.h" />
     <header-file src="src/ios/CordovaPluginScanios.h" />
     <header-file src="src/share/threadbuf.h" />
+
+    <source-file src="src/ios/filestream.cpp" target-dir="./scan" />
+    <header-file src="src/ios/filestream.hpp" target-dir="./scan" />
 
     <header-file src="src/share/scan/src/bb_base.hpp" target-dir="./scan" />
     <header-file src="src/share/scan/src/bb_comp.hpp" target-dir="./scan" />
