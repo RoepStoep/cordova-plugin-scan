@@ -208,6 +208,7 @@ void hub_loop() {
 
          std::string pos = pos_hub(pos::Start);
          std::string moves;
+         std::string wolf;
 
          while (!scan.eos()) {
 
@@ -220,13 +221,21 @@ void hub_loop() {
                pos = p.value;
             } else if (p.name == "moves") {
                moves = p.value;
+            } else if (p.name == "wolf") {
+               wolf = p.value;
             }
          }
 
          // position
 
          try {
-            game.init(pos_from_hub(pos));
+            Pos hub_pos = pos_from_hub(pos);
+
+            if (var::Variant == var::Frisian) {
+               pos::wolf_from_hub(wolf, hub_pos);
+            }
+
+            game.init(hub_pos);
          } catch (const Bad_Input &) {
             hub::error("bad position");
             continue;
