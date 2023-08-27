@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="cordova-plugin-scan" version="1.8.0">
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="capacitor-cordova-plugin-scan" version="1.1.0">
   <name>Cordova Scan Plugin</name>
-  <description>Cordova interface to Scan draughts engine.</description>
-  <author>Sébastien Renault</author>
+  <description>Cordova interface to Scan draughts engine, adapted to capacitor.</description>
+  <author>Stefan Schermann</author>
   <keywords>cordova,scan</keywords>
   <license>MIT</license>
 

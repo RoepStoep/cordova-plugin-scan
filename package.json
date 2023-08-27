@@ -1,22 +1,17 @@
 {
-  "name": "cordova-plugin-scan",
-  "version": "1.0.0",
-  "description": "Cordova interface to Scan draughts engine.",
+  "name": "capacitor-cordova-plugin-scan",
+  "version": "1.1.0",
+  "description": "Cordova interface to Scan draughts engine, adapted to capacitor.",
   "cordova": {
-    "id": "cordova-plugin-scan",
+    "id": "capacitor-cordova-plugin-scan",
     "platforms": [
       "android",
       "ios"
     ]
   },
-  "engines": {
-    "cordovaDependencies": {
-      "1.7.0": { "cordova-android": ">=7.0.0" }
-    }
-  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/RoepStoep/cordova-plugin-scan.git"
+    "url": "git+https://github.com/RoepStoep/cordova-plugin-scan.git#capacitor"
   },
   "keywords": [
     "cordova",
@@ -30,7 +25,7 @@
     "cordova-android",
     "cordova-ios"
   ],
-  "author": "Sébastien Renault",
+  "author": "Stefan Schermann",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/RoepStoep/cordova-plugin-scan/issues"
